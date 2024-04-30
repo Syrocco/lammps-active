@@ -104,15 +104,14 @@ void FixUnderdampedActive2D::initial_integrate(int vflag)
 
   // set timestep here since dt may have changed or come via rRESPA
   dt = update->dt;
-  sqrtdt = sqrt(dt);
 
   for (int i = 0; i < nlocal; i++)
     if (mask[i] & groupbit) {
       
-      angle[i] += sqrtdt*sqrt(Dr)*random->gaussian();
+      angle[i] += sqrt(2*dt*Dr)*random->gaussian();
 
-      v[i][0] += (-gammaT*v[i][0]*dt + dt*f[i][0] + sqrtdt*sqrt(2*T*gammaT)*random->gaussian() + gammaT*vo*cos(angle[i])*dt)/rmass[i];
-      v[i][1] += (-gammaT*v[i][1]*dt + dt*f[i][1] + sqrtdt*sqrt(2*T*gammaT)*random->gaussian() + gammaT*vo*sin(angle[i])*dt)/rmass[i];
+      v[i][0] += (-gammaT*v[i][0]*dt + dt*f[i][0] + sqrt(2*dt*T*gammaT)*random->gaussian() + gammaT*vo*cos(angle[i])*dt)/rmass[i];
+      v[i][1] += (-gammaT*v[i][1]*dt + dt*f[i][1] + sqrt(2*dt*T*gammaT)*random->gaussian() + gammaT*vo*sin(angle[i])*dt)/rmass[i];
       x[i][0] +=  v[i][0]*dt;
       x[i][1] +=  v[i][1]*dt; 
                                                                         
